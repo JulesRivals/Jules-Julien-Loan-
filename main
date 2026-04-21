@@ -6,7 +6,7 @@ import java.sql.Statement;
 
 public class Main {
     public static void main(String[] args) {
-        String url = "jdbc:sqlite:ma_base.db"; // Fichier de base de données local
+        String url = "jdbc:BDD_Java_Projet.db"; // Fichier de base de données local
 
         try {
             // Établissement de la connexion
