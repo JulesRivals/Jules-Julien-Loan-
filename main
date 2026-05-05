@@ -1,55 +1,45 @@
+package java_projet;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 
 public class Main {
     public static void main(String[] args) {
-        String url = "jdbc:BDD_Java_Projet.db"; // Fichier de base de données local
+
+        String url = "jdbc:sqlite:BDD_Java_Projet.db";
 
         try {
-            // Établissement de la connexion
             Connection conn = DriverManager.getConnection(url);
-            System.out.println("Connexion établie avec la base SQLite.");
+            System.out.println("Connexion OK");
 
-            // Création de la table (si elle n'existe pas déjà)
             Statement stmt = conn.createStatement();
-            String sqlCreate = "CREATE TABLE IF NOT EXISTS utilisateurs (" +
-                               "id INTEGER PRIMARY KEY, " +
-                               "nom TEXT)";
-            stmt.execute(sqlCreate);
 
-            // Insertion d'un enregistrement
-            String sqlInsert = "INSERT INTO utilisateurs(nom) VALUES ('Alice')";
-            stmt.execute(sqlInsert);
+            
+            stmt.execute("CREATE TABLE IF NOT EXISTS utilisateurs (" +
+                         "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                         "nom TEXT)");
+            System.out.println("Table prête");
 
-            // Requête de lecture
+            // Insertion
+            int rows = stmt.executeUpdate(
+                "INSERT INTO utilisateurs(nom) VALUES ('Alice')");
+            System.out.println(rows + " ligne insérée");
+
+            // Lecture
             ResultSet rs = stmt.executeQuery("SELECT * FROM utilisateurs");
+
             while (rs.next()) {
-                System.out.println("ID : " + rs.getInt("id") +
-                                   ", Nom : " + rs.getString("nom"));
+                System.out.println(
+                    "ID: " + rs.getInt("id") +
+                    " | Nom: " + rs.getString("nom"));
             }
 
-            // Fermeture des ressources
-            rs.close();
-            stmt.close();
             conn.close();
 
-        } catch (SQLException e) {
-            System.err.println("Erreur lors de la connexion ou des opérations SQL : " + e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-    
-
-	
-		ArrayList <String> tarte_pomme = new ArrayList<>();
-		
-		tarte_pomme.AjouterAliment("pomme");
-		
-		Aliments pomme = new Aliments();
-		Aliments oeuf = new Aliments();
-		Aliments beurre = new Aliments();
-		Aliments sucre = new Aliments();
-	}
-
+    }
 }
